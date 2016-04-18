@@ -21,26 +21,48 @@ prompt("Hello #{name}. We will calculate your loan duration in months based on y
 
 #main loop
 loop do
-	loan_Amount = ''
+	loan_amount = ''
 	loop do
-		prompt("What is your monthly loan amount?")
-		loan_Amount = Kernel.gets().chomp()
-		break
+		prompt("What is your loan amount?")
+		loan_amount = Kernel.gets().chomp()
+		if loan_amount.empty?() || loan_amount.to_f() < 0
+			prompt("Please enter a valid amount.")
+		else
+			break
+		end
 	end
 
-	interest = ''
+	interest_rate = ''
 	loop do
 		prompt("What is your interest rate?")
-		interest = Kernel.gets().chomp()
-		break
+		interest_rate = Kernel.gets().chomp()
+		if interest_rate.empty?() || interest_rate.to_f() < 0
+			prompt("Please enter a valid amount.")
+		else
+			break
+		end
 	end
 
-	loan_Duration = ''
+	loan_duration = ''
 	loop do
-		prompt("What is your loan duration (months)?")
-		loan_Duration = Kernel.gets().chomp()
-		break
+		prompt("What is your loan duration (years)?")
+		loan_duration = Kernel.gets().chomp()
+		if loan_duration.empty?()|| loan_duration.to_i < 0
+			prompt("Please enter a valid amount.")
+		else
+			break
+		end
 	end
+
+	annual_interest_rate = interest_rate.to_f() / 100
+	monthly_interest_rate = annual_interest_rate / 12
+	months = loan_duration.to_i() * 12 
+
+	monthly_payment  = loan_amount.to_f() * 
+										 (monthly_interest_rate / 
+										 	(1 - (1 + monthly_interest_rate)** - months.to_i()))
+
+  prompt("Your monthly payment is: $#{format('%02.2f', monthly_payment)}")
 	prompt("Do you want to perform another calculation? (Y to calculate again) ")
   answer = Kernel.gets().chomp()
   break unless answer.downcase().start_with?('y')
